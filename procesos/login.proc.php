@@ -2,10 +2,11 @@
 //iniciar sesion y obtener el usuario y la contraseña del formulario.
 
 session_start();
-$conexion = mysqli_connect('localhost', 'root', '', 'reserva_recursos');
+$conexion = mysqli_connect('localhost', 'root', '', 'reserva_recursos3');
 
 $usuario = $_POST ['user'];
 $clave = $_POST ['password'];
+
 
 //Pasamos a MD5 la contraseña para poder compararla con la base de datos
 $claveMD5 = md5($clave);
@@ -29,6 +30,16 @@ if($array['contar']>0) {
 	echo "Funciona";
  	header("location: ../formulario_de_recursos.php");
 
+
+//----Aquí lo que haré es sacar la id de usuario para utilizarla en el archivo de reservas.php"------//
+ 	$query2= "SELECT id_usu FROM usuarios WHERE user='$usuario'";
+	$result=mysqli_query($conexion,$query2);
+
+	while ($row=mysqli_fetch_array($result)) {
+		$_SESSION['id_usuario']=$row['id_usu'];
+		}
+
+//--------------------------------------------------------------------------------------------------//
 	}else {
 		echo "Usuario incorrecto";
 		//header("location: login.php?usuario=".base64_encode($usuario));
