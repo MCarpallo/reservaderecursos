@@ -27,8 +27,9 @@ echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
 
 			//Este bucle lo que hará es recorrer todas las opciones de la tabla de recursos y irá mostrandolos seguidos de un botón para reservar o liberar, dependiendo de como estén.
 			while ($row=mysqli_fetch_array($result)) {
-				$index_recurso = "reservas.php?nombre=".$row['nombre_recurso'];
-				$liberar = "liberar.php?nombre=".$row['nombre_recurso'];
+				$index_recurso = "procesos/reservas.php?nombre=".$row['nombre_recurso'];
+				$liberar = "procesos/liberar.php?nombre=".$row['nombre_recurso'];
+				$incidencia = "incidencias.php?id=".$row['id_recursos'];
 				echo "".$row['nombre_recurso']; 
 
 
@@ -62,9 +63,11 @@ echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
 			$id_usu = $_SESSION['id_usuario'];
 
 			if ($id_usu==$id_usu_reserva) {
-			echo "<a href='$liberar'>Liberar </a><br>";
+			echo "<a href='$liberar'>Liberar </a>";
+			echo "<a href='$incidencia'>Crear Incidencia </a><br>";
+
 			}else{
-				echo "<a>Reservado por otro profesor </a><br>";
+				echo "<a>  Reservado por otro profesor </a><br>";
 			}
 
 

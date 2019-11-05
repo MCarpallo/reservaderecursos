@@ -1,7 +1,8 @@
 <?php 
 //iniciar sesion y obtener el usuario y la contraseña del formulario.
-
 session_start();
+session_id('usuarios');
+
 $conexion = mysqli_connect('localhost', 'root', '', 'reserva_recursos3');
 
 $usuario = $_POST ['user'];

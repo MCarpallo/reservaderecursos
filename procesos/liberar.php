@@ -8,7 +8,7 @@
 	
 
 	<?php 
-		include 'procesos/connection.php';
+		include 'connection.php';
 	 if (!isset($_REQUEST['nombre'])) {
       $mult=0;
     }else{
