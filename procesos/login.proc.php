@@ -27,7 +27,7 @@ if($array['contar']>0) {
 
 	$_SESSION['username'] = $usuario;
 	echo "Funciona";
- 	header("location: formulario_de_recursos.php");
+ 	header("location: ../formulario_de_recursos.php");
 
 	}else {
 		echo "Usuario incorrecto";
