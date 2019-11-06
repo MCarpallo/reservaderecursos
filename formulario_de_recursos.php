@@ -16,6 +16,10 @@ body {
 /*    background-image:url(./prism.png); */
 }
 
+.menu {
+	margin-top: 70%;
+}
+
 .sidebar {
     position: fixed;
     height: 100%;
@@ -99,20 +103,40 @@ h1 {
 
 <div id="sidebar" class="sidebar">
     <a href="#" class="boton-cerrar" onclick="ocultar()">&times;</a>
-<ul class="menu">
+<ul class="menu" style="
+    margin-top: 138%;">
     <br>
     <li><a href="./login.php">Login</a></li>
     <br>
     <li><a href="./formulario_de_recursos.php">Formulario Reservas</a></li>
     <br>
-    <li><a href="#">Incidencias</a></li>
+
+<?php
+session_start();
+
+
+	if(isset($_SESSION['username'])){
+	$usuario = $_SESSION['username'];
+}
+
+	if(isset($usuario)){
+		if ($usuario == "admin") {
+			
+			echo '<li><a href="#">Incidencias</a></li>';
+
+}
+			}
+
+?>
+
+    
     <!-- <li><a href="#">Opción 4</a></li> -->
 </ul>
   
 </div>
 
 <div id="contenido">
-  <p><a href="" target="_blank"><img src="" alt="Recursos reservas" style="border-width: 0px"/></a></p>
+  <p><a href="" target="_blank"><a alt="Recursos reservas" style="border-width: 0px"/></a></p>
   <h1>Menú</h1>
   <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="mostrar()">Abrir menu</a><a id="cerrar" class="abrir-cerrar" href="#" onclick="ocultar()">Cerrar menu</a>
 </div>
@@ -135,8 +159,12 @@ function ocultar() {
 	<?php 
 
 //Iniciar la sesión para pillar la variable del usuario y comprobar si está logeado o no.
-	session_start();
+	//session_start();
+
+	if(isset($_SESSION['username'])){
 	$usuario = $_SESSION['username'];
+}
+
 		include 'procesos/connection.php';
 	if(isset($usuario)){
 echo "<br>";
@@ -191,7 +219,7 @@ echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
 
 			if ($id_usu==$id_usu_reserva) {
 			echo "<a href='$liberar'>Liberar </a>";
-			echo "<a href='$incidencia'>Crear Incidencia </a><br>";
+			echo "<a href='$incidencia' style>Crear Incidencia </a><br>";
 
 			}else{
 				echo "<a>  Reservado por otro profesor </a><br>";
@@ -212,7 +240,7 @@ echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
 		//En el caso de que no esté logeado le saldrá un mensaje de que se tiene que logear.
 }else{
 
-echo "Porfavor, tienes que inciar sesión en la página del login:";
+echo "Porfavor, tienes que inciar sesión en la página del login: ";
 
 echo "<a href='login.php'>Iniciar Sesión </a>";
 
