@@ -4,6 +4,8 @@
 .body{
   background:#778899;
 }
+
+
 * {
   padding: 0;
   margin: 0;
@@ -13,7 +15,17 @@
 
 form {
   padding: 50px 20px;
-  background-color: #B22222;
+  
+  margin: calc(25% + 100px);
+  margin-top: 70px;
+  padding-top: 28px;
+  margin-bottom: 30px
+}
+
+.cuadrado{
+  padding: 50px 20px;
+  background-color:rgb(125,125,125,0.90);
+  font-size: 20px;
   margin: calc(25% + 100px);
   margin-top: 70px;
   padding-top: 28px;
@@ -35,7 +47,7 @@ input {
 }
 
 input[type='submit']{
-  background-color: #48e;
+  background-color: #4  8e;
   color: #fff;
   width: calc(80% - 20px);
   margin: 0 10%;

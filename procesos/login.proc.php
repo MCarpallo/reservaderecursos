@@ -1,7 +1,7 @@
 <?php 
 //iniciar sesion y obtener el usuario y la contraseña del formulario.
 session_start();
-session_id('usuarios');
+
 
 $conexion = mysqli_connect('localhost', 'root', '', 'reserva_recursos3');
 
@@ -43,6 +43,7 @@ if($array['contar']>0) {
 //--------------------------------------------------------------------------------------------------//
 	}else {
 		echo "Usuario incorrecto";
+		header("location: ../login.php");
 		//header("location: login.php?usuario=".base64_encode($usuario));
 		exit;
 	}

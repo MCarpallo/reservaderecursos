@@ -2,12 +2,15 @@
 <html>
 <head>
 	<title>Creación de Incidencias</title>
+		<link rel="stylesheet" type="text/css" href="estilos2.css">
+		
 </head>
 <body>
 
 
 <h1>Página de incidencias</h1>
 <form action="procesos/incidencias.proc.php" method="post">
+
 
 <textarea name="dsc_incidencias" id="dsc_incidencias" rows="10" cols="40" placeholder="Explica que incidencia ha ocurrido: "></textarea><br>
 

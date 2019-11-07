@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2019 a las 15:56:27
--- Versión del servidor: 8.0.13
+-- Tiempo de generación: 06-11-2019 a las 17:10:11
+-- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -25,24 +25,42 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `disponible`
+--
+
+CREATE TABLE `disponible` (
+  `id_disponible` int(3) NOT NULL,
+  `nombre_disponible` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `disponible`
+--
+
+INSERT INTO `disponible` (`id_disponible`, `nombre_disponible`) VALUES
+(1, 'si'),
+(2, 'no');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `incidencias`
 --
 
 CREATE TABLE `incidencias` (
   `id_incidencia` int(11) NOT NULL,
   `dsc_incidencia` text NOT NULL,
-  `id_recursos` int(3) NOT NULL,
+  `id_recursos` int(11) NOT NULL,
   `id_usu` int(11) NOT NULL,
   `estado` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `incidencias`
 --
 
 INSERT INTO `incidencias` (`id_incidencia`, `dsc_incidencia`, `id_recursos`, `id_usu`, `estado`) VALUES
-(1, 'test test test test', 4, 2, 1),
-(2, 'scvbncvbhnj', 3, 2, 0);
+(2, 'test test test test', 4, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -53,33 +71,35 @@ INSERT INTO `incidencias` (`id_incidencia`, `dsc_incidencia`, `id_recursos`, `id
 CREATE TABLE `recursos` (
   `id_recursos` int(3) NOT NULL,
   `nombre_recurso` varchar(100) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `imagen` varchar(100) DEFAULT NULL,
   `id_disponible` int(3) DEFAULT NULL,
   `id_tipo_recurso` int(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `recursos`
 --
 
-INSERT INTO `recursos` (`id_recursos`, `nombre_recurso`, `id_disponible`, `id_tipo_recurso`) VALUES
-(1, 'Sala Multidisciplinar 1', 1, 1),
-(2, 'Sala Multidisciplinar 2', 1, 1),
-(3, 'Sala Multidisciplinar 3', 1, 1),
-(4, 'Sala Multidisciplinar 4', 1, 1),
-(5, 'Sala Informatica 1', 1, 2),
-(6, 'Sala Informatica 2', 1, 2),
-(7, 'Taller Cocina', 1, 3),
-(8, 'Despacho Entrevista 1', 1, 4),
-(9, 'Despacho Entrevista 2', 1, 4),
-(10, 'Salon Actos', 1, 5),
-(11, 'Sala Reuniones', 1, 6),
-(12, 'Proyector Portatil 1', 1, 7),
-(13, 'Proyector Portatil 2', 1, 7),
-(14, 'Portatil 1', 1, 8),
-(15, 'Portatil 2', 1, 8),
-(16, 'Portatil 3', 1, 8),
-(17, 'Movil 1', 1, 9),
-(18, 'Movil 2', 1, 9);
+INSERT INTO `recursos` (`id_recursos`, `nombre_recurso`, `descripcion`, `imagen`, `id_disponible`, `id_tipo_recurso`) VALUES
+(1, 'Sala Multidisciplinar 1', '', '', 1, 1),
+(2, 'Sala Multidisciplinar 2', '', '', 1, 1),
+(3, 'Sala Multidisciplinar 3', '', '', 1, 1),
+(4, 'Sala Multidisciplinar 4', '', '', 1, 1),
+(5, 'Sala Informatica 1', '', '', 1, 2),
+(6, 'Sala Informatica 2', '', '', 1, 2),
+(7, 'Taller Cocina', '', '', 1, 3),
+(8, 'Despacho Entrevista 1', '', '', 1, 4),
+(9, 'Despacho Entrevista 2', '', '', 1, 4),
+(10, 'Salon Actos', '', '', 1, 5),
+(11, 'Sala Reuniones', '', '', 1, 6),
+(12, 'Proyector Portatil 1', '', '', 1, 7),
+(13, 'Proyector Portatil 2', '', '', 1, 7),
+(14, 'Portatil 1', '', '', 1, 8),
+(15, 'Portatil 2', '', '', 1, 8),
+(16, 'Portatil 3', '', '', 1, 8),
+(17, 'Movil 1', '', '', 1, 9),
+(18, 'Movil 2', '', '', 1, 9);
 
 -- --------------------------------------------------------
 
@@ -95,7 +115,7 @@ CREATE TABLE `reserva` (
   `hora_fin` time DEFAULT NULL,
   `id_usu` int(11) DEFAULT NULL,
   `id_recursos` int(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `reserva`
@@ -110,6 +130,7 @@ INSERT INTO `reserva` (`id_reserva`, `fecha_ini`, `fecha_fin`, `hora_ini`, `hora
 (13, '2019-11-05', NULL, '05:34:53', NULL, 2, 3),
 (14, '2019-11-05', '2019-11-05', '05:54:49', '05:54:49', 2, 5),
 (15, '2019-11-05', '2019-11-05', '07:18:29', '07:18:29', 2, 1),
+(16, '2019-11-05', NULL, '07:19:05', NULL, 2, 0),
 (17, '2019-11-05', '2019-11-05', '07:33:48', '07:33:48', 2, 1),
 (18, '2019-11-05', '2019-11-05', '07:43:17', '07:43:17', 2, 1),
 (19, '2019-11-05', '2019-11-05', '07:47:29', '07:47:29', 1, 16),
@@ -119,8 +140,7 @@ INSERT INTO `reserva` (`id_reserva`, `fecha_ini`, `fecha_fin`, `hora_ini`, `hora
 (37, '2019-11-05', '2019-11-05', '07:51:21', '07:51:21', 2, 1),
 (38, '2019-11-05', '2019-11-05', '08:16:22', '08:16:22', 2, 1),
 (39, '2019-11-05', '2019-11-05', '08:18:47', '08:18:47', 2, 4),
-(40, '2019-11-05', '2019-11-05', '08:27:50', '08:27:50', 2, 1),
-(41, '2019-11-07', NULL, '03:11:09', NULL, 1, 1);
+(40, '2019-11-05', '2019-11-05', '08:27:50', '08:27:50', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -131,7 +151,7 @@ INSERT INTO `reserva` (`id_reserva`, `fecha_ini`, `fecha_fin`, `hora_ini`, `hora
 CREATE TABLE `tipo_recurso` (
   `id_tipo_recurso` int(3) NOT NULL,
   `Nombre_tipo_recurso` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `tipo_recurso`
@@ -158,17 +178,16 @@ CREATE TABLE `usuarios` (
   `id_usu` int(11) NOT NULL,
   `user` varchar(50) NOT NULL,
   `password` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_usu`, `user`, `password`) VALUES
-(1, 'Fernando', '81dc9bdb52d04dc20036dbd8313ed055'),
+(1, 'fernando', '81dc9bdb52d04dc20036dbd8313ed055'),
 (2, 'Mario', '81dc9bdb52d04dc20036dbd8313ed055'),
-(3, 'Aaron', '81dc9bdb52d04dc20036dbd8313ed055'),
-(4, 'Admin', '81dc9bdb52d04dc20036dbd8313ed055');
+(3, 'Aaron', '81dc9bdb52d04dc20036dbd8313ed055');
 
 --
 -- Índices para tablas volcadas
@@ -178,31 +197,13 @@ INSERT INTO `usuarios` (`id_usu`, `user`, `password`) VALUES
 -- Indices de la tabla `incidencias`
 --
 ALTER TABLE `incidencias`
-  ADD PRIMARY KEY (`id_incidencia`),
-  ADD KEY `id_usu` (`id_usu`),
-  ADD KEY `id_recursos` (`id_recursos`);
-
---
--- Indices de la tabla `recursos`
---
-ALTER TABLE `recursos`
-  ADD PRIMARY KEY (`id_recursos`),
-  ADD KEY `id_disponible` (`id_disponible`),
-  ADD KEY `id_tipo_recurso` (`id_tipo_recurso`);
+  ADD PRIMARY KEY (`id_incidencia`);
 
 --
 -- Indices de la tabla `reserva`
 --
 ALTER TABLE `reserva`
-  ADD PRIMARY KEY (`id_reserva`),
-  ADD KEY `id_usu` (`id_usu`),
-  ADD KEY `reserva_recursos` (`id_recursos`);
-
---
--- Indices de la tabla `tipo_recurso`
---
-ALTER TABLE `tipo_recurso`
-  ADD PRIMARY KEY (`id_tipo_recurso`);
+  ADD PRIMARY KEY (`id_reserva`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -221,52 +222,16 @@ ALTER TABLE `incidencias`
   MODIFY `id_incidencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `recursos`
---
-ALTER TABLE `recursos`
-  MODIFY `id_recursos` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
 -- AUTO_INCREMENT de la tabla `reserva`
 --
 ALTER TABLE `reserva`
-  MODIFY `id_reserva` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-
---
--- AUTO_INCREMENT de la tabla `tipo_recurso`
---
-ALTER TABLE `tipo_recurso`
-  MODIFY `id_tipo_recurso` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_reserva` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `incidencias`
---
-ALTER TABLE `incidencias`
-  ADD CONSTRAINT `incidencias_ibfk_1` FOREIGN KEY (`id_usu`) REFERENCES `usuarios` (`id_usu`),
-  ADD CONSTRAINT `incidencias_ibfk_2` FOREIGN KEY (`id_recursos`) REFERENCES `recursos` (`id_recursos`);
-
---
--- Filtros para la tabla `recursos`
---
-ALTER TABLE `recursos`
-  ADD CONSTRAINT `recursos_ibfk_1` FOREIGN KEY (`id_tipo_recurso`) REFERENCES `tipo_recurso` (`id_tipo_recurso`);
-
---
--- Filtros para la tabla `reserva`
---
-ALTER TABLE `reserva`
-  ADD CONSTRAINT `reserva_ibfk_1` FOREIGN KEY (`id_usu`) REFERENCES `usuarios` (`id_usu`),
-  ADD CONSTRAINT `reserva_recursos` FOREIGN KEY (`id_recursos`) REFERENCES `recursos` (`id_recursos`);
+  MODIFY `id_usu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

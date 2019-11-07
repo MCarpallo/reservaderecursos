@@ -8,6 +8,19 @@
 ::-moz-selection {
   background: #2D2F36;
 }
+
+.mensaje {
+      display: none;
+      border: black 1px solid;
+      border-radius: 8px;
+      margin-left: 6%;
+      margin-right: 6%;
+      padding-top:2%;
+      padding-bottom: 2%;
+      background-color:rgba(254,0,0,0.40);
+      width: auto;
+      }
+
 body {
   background: white;
   font-family: 'Inter UI', sans-serif;

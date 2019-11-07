@@ -3,14 +3,16 @@
 <head>
 	<title>Login</title>
   <link rel="stylesheet" type="text/css" href="estilos.css">
-	<script type="text/javascript" src="javascript.js"></script> 
+	<script type="text/javascript" src="procesos/codi.js"></script> 
 </head>
 <body>
 
 <?php
 session_start();
 
-$usuario = $_SESSION['username'];
+if(isset($_SESSION['username'])){
+  $usuario = $_SESSION['username'];
+}
 
   if(isset($usuario)){
 
@@ -81,15 +83,17 @@ echo '<div class="page">
         </defs>
         <path d="m 40,120.00016 239.99984,-3.2e-4 c 0,0 24.99263,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,35 h -239.99984 c 0,-0.0205 -25,4.01348 -25,38.5 0,34.48652 25,38.5 25,38.5 h 215 c 0,0 20,-0.99604 20,-25 0,-24.00396 -20,-25 -20,-25 h -190 c 0,0 -20,1.71033 -20,25 0,24.00396 20,25 20,25 h 168.57143" />
       </svg>
+
       <div class="form">
-        <form action="procesos/login.proc.php" method="POST">
+        <form action="procesos/login.proc.php" method="POST" onsubmit="return validacionLogin()">
          
         <label for="user">User</label>
+        
         <input type="user" id="user" name="user">
         <label for="password">Password</label>
         <input type="password" id="password" name="password">
-        <!-- <button type="submit">Iniciar Sesion</button><br> -->
         <input type="submit" id="submit" value="Submit">
+        <p id = "mensaje" class="mensaje"></p>
         </form>
         </div>
     </div>

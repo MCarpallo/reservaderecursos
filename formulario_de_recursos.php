@@ -3,6 +3,7 @@
 <head>
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="estilos2.css">
+    <link rel="stylesheet" type="text/css" href="tabla.css">
 </head>
 <body>
 
@@ -14,6 +15,10 @@ body {
     font-family: "Segoe UI", sans-serif;
     font-size:100%;
 /*    background-image:url(./prism.png); */
+}
+
+.menu {
+	margin-top: 70%;
 }
 
 .sidebar {
@@ -99,20 +104,40 @@ h1 {
 
 <div id="sidebar" class="sidebar">
     <a href="#" class="boton-cerrar" onclick="ocultar()">&times;</a>
-<ul class="menu">
+<ul class="menu" style="
+    margin-top: 138%;">
     <br>
     <li><a href="./login.php">Login</a></li>
     <br>
     <li><a href="./formulario_de_recursos.php">Formulario Reservas</a></li>
     <br>
-    <li><a href="#">Incidencias</a></li>
+
+<?php
+session_start();
+
+
+	if(isset($_SESSION['username'])){
+	$usuario = $_SESSION['username'];
+}
+
+	if(isset($usuario)){
+		if ($usuario == "admin") {
+			
+			echo '<li><a href="incidencias_admin.php">Incidencias</a></li>';
+
+}
+			}
+
+?>
+
+    
     <!-- <li><a href="#">Opción 4</a></li> -->
 </ul>
   
 </div>
 
 <div id="contenido">
-  <p><a href="" target="_blank"><img src="" alt="Recursos reservas" style="border-width: 0px"/></a></p>
+  <p><a href="" target="_blank"><a alt="Recursos reservas" style="border-width: 0px"/></a></p>
   <h1>Menú</h1>
   <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="mostrar()">Abrir menu</a><a id="cerrar" class="abrir-cerrar" href="#" onclick="ocultar()">Cerrar menu</a>
 </div>
@@ -135,8 +160,12 @@ function ocultar() {
 	<?php 
 
 //Iniciar la sesión para pillar la variable del usuario y comprobar si está logeado o no.
-	session_start();
+	//session_start();
+
+	if(isset($_SESSION['username'])){
 	$usuario = $_SESSION['username'];
+}
+
 		include 'procesos/connection.php';
 	if(isset($usuario)){
 echo "<br>";
@@ -153,16 +182,36 @@ echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
 			echo "<option value=''>RECURSOS</option>";
 
 			//Este bucle lo que hará es recorrer todas las opciones de la tabla de recursos y irá mostrandolos seguidos de un botón para reservar o liberar, dependiendo de como estén.
+
+            echo "<table>
+            <thead>
+                <tr>
+                    <th>Recurso</th><th>Estado</th>
+                </tr>
+            </thead>";
 			while ($row=mysqli_fetch_array($result)) {
 				$index_recurso = "procesos/reservas.php?nombre=".$row['nombre_recurso'];
 				$liberar = "procesos/liberar.php?nombre=".$row['nombre_recurso'];
 				$incidencia = "incidencias.php?id=".$row['id_recursos'];
+				
+
+
+
+                echo "<tr>
+                <td>";
+
 				echo "".$row['nombre_recurso']; 
 
+                echo "</td>";
 
 				//Hacemos un if para los botones de reservar/liberar
 			if ($row['id_disponible']==1) {
-				echo "<a href='$index_recurso'> Reservar </a> <br>";				
+
+                echo "<td style='background-color:rgba(97,245,112,0.50);'>";
+				echo "<a href='$index_recurso'> Reservar </a> <br>";	
+                echo "</td> </tr> ";
+
+
 			}else {
 				error_reporting(E_ALL ^ E_NOTICE); 
 
@@ -188,15 +237,63 @@ echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
 						}
 
 			$id_usu = $_SESSION['id_usuario'];
+            
 
+
+
+            $id_recurso_inc = $row['id_recursos'];
+                $query3 = "SELECT * FROM incidencias WHERE `id_recursos`='$id_recurso_inc' ";
+                $result3=mysqli_query($db,$query3);
+
+
+             while ($row3=mysqli_fetch_array($result3)) {
+                    $estadoin=$row3['estado'];
+
+                }
+
+                
+
+            //Aqui comparamos el id del usuario logeado con el id del usuario de la reserva. Si es el mismo, puede tener opción a crear incidencia o a liberarlo. 
 			if ($id_usu==$id_usu_reserva) {
-			echo "<a href='$liberar'>Liberar </a>";
-			echo "<a href='$incidencia'>Crear Incidencia </a><br>";
 
+
+            //Comprobar si el recurso está en incidencia o no
+                
+           
+               
+
+              
+
+
+                if ($estadoin == 0) {
+                    echo "<td style='background-color:rgba(253,47,56,0.85);'>";
+            echo "<p>En Incidencia</p>";
+            echo "</td> </tr> ";
+                }else{
+
+                 echo "<td style='background-color:rgba(255,135,0,0.85);'>";
+			echo "<a href='$liberar'>Liberar </a>";
+            echo "----";
+
+			echo "<a href='$incidencia' style>Crear Incidencia </a><br>";
+            echo "</td> </tr> ";
+        }
+            //Si no es así, el usuario solo verá el mensaje de que ha sido reservado por otro profesor. 
 			}else{
+
+                if ($estadoin == 0) {
+                    echo "<td style='background-color:rgba(253,47,56,0.85);'>";
+
+            echo "<p>En Incidencia</p>";
+            echo "</td> </tr> ";
+                }else{
+                echo "<td style='background-color:rgba(253,47,56,0.85);'>";
 				echo "<a>  Reservado por otro profesor </a><br>";
+                echo "</td> </tr> ";
+            }
 			}
 
+            
 
 			}
 			
@@ -212,7 +309,7 @@ echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
 		//En el caso de que no esté logeado le saldrá un mensaje de que se tiene que logear.
 }else{
 
-echo "Porfavor, tienes que inciar sesión en la página del login:";
+echo "Porfavor, tienes que inciar sesión en la página del login: ";
 
 echo "<a href='login.php'>Iniciar Sesión </a>";
 
