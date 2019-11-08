@@ -1,4 +1,4 @@
 # reservaderecursos
 [Pagina de presentacion](https://mcarpallo.github.io/reservaderecursos/#)
 
-[Curriculum](https://fernandon0.github.io)
+[Curriculum Fernando Navarro Martin](https://fernandon0.github.io)
