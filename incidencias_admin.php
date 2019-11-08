@@ -6,16 +6,34 @@
     <link rel="stylesheet" type="text/css" href="tabla.css">
 </head>
 <body>
+<?php
 
-  
+session_start();
+
+
+    if(isset($_SESSION['username'])){
+    $usuario = $_SESSION['username'];
+}
+
+    if(isset($usuario)){
+        if ($usuario != "admin") {
+            
+            header("location: incidencias_admᎥn.php");
+}
+            }
+
+?>
+<style type="text/css">
+  body{background:url(https://www.elsetge.cat/myimg/f/145-1452323_nature-landscape-sky-clouds-himalayas-mountain-minimalist-nature.jpg)no-repeat fixed center;
+  }
+   </style>
    <style>
 body {
     font-family: "Segoe UI", sans-serif;
     font-size:100%;
-    background:url(https://www.elsetge.cat/myimg/f/145-1452323_nature-landscape-sky-clouds-himalayas-mountain-minimalist-nature.jpg)no-repeat fixed center;
 /*    background-image:url(./prism.png); */
-}
 
+}
 
 .menu {
 	margin-top: 70%;
@@ -111,9 +129,10 @@ h1 {
     <br>
     <li><a href="./formulario_de_recursos.php">Formulario Reservas</a></li>
     <br>
+    <li><a href="./historial.php">Historial</a></li>
+    <br>
 
 <?php
-session_start();
 
 
 	if(isset($_SESSION['username'])){
@@ -157,44 +176,89 @@ function ocultar() {
     document.getElementById("cerrar").style.display = "none";
 }
 </script>
-<?php 
-
-//Iniciar la sesión para pillar la variable del usuario y comprobar si está logeado o no.
-	//session_start();
+	
+	<?php 
 
 	if(isset($_SESSION['username'])){
 	$usuario = $_SESSION['username'];
 }
 
-		include 'procesos/connection.php';
+
 	if(isset($usuario)){
-       echo"<div class='derecha'>";
+echo "<div class='derecha'>";
 echo "<br>";
 echo "Estás logeado como ".$usuario;
 echo "<br>";
 echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
+
 echo "</div>";
+
+
+		//session_start();
+		include 'procesos/connection.php';
+		
+
+		$query= "SELECT * FROM incidencias ORDER BY estado ASC ";
+		$result=mysqli_query($db,$query);
+
+
+
+		
+		//Muestra todas las incidencias creadas
+			echo "<div class='cuadrado'";
+
+            echo '<div id="main-container">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Recurso</th><th>Descripción de Incidencia</th><th>Solventar</th>
+                </tr>
+                </thead>';
+
+
+			while ($row=mysqli_fetch_array($result)) {
+
+				$solucion_in = "solucionar.php?id_incidencia=".$row['id_incidencia'];
+
+				$id=$row['id_recursos'];
+				$rec="SELECT nombre_recurso FROM recursos WHERE id_recursos =$id";
+
+				$result2=mysqli_query($db,$rec);
+				$row2=mysqli_fetch_array($result2);
+
+        		$nom=$row2['nombre_recurso'];    
+        		// Dependiendo de si la incidencia esta solucionada o no, en el caso de que este solucionada te la muestra en verde y no aparece el boton de solucionar,en caso contrario aparece en rojo y aparece el boton de solucionar
+        		if ($row['estado']==1){
+                 echo "<tr style='background-color:rgba(97,245,112,0.80);'>";   
+               		echo "<td><h4'>$nom</td>"."<td>".$row['dsc_incidencia']."</td><td></td></tr>";
+
+			}else if ($row['estado']==0){
+			
+				    echo "<tr style='background-color:rgba(253,47,56,0.85);'><td><h4'>$nom</td>"."<td>".$row['dsc_incidencia']."</td><td><a href='$solucion_in'> Solucionar </a></h4></td>
+                    </tr>";
+			}else{
+                echo "</tr>
+        </table>
+    </div>";
+
+            }
+
+			}
+		}else{
+
+echo "Porfavor, tienes que inciar sesión en la página del login: ";
+
+echo "<a href='login.php'>Iniciar Sesión </a>";
+
 }
-?>
-
-<h1 style="margin-bottom: -3%; margin-top: 3%;">Página de incidencias</h1>
-<!--Le pongo el required ya que no se porqué no funciona el javascript. -->
-<form action="procesos/incidencias.proc.php" method="post" onsubmit="return validacionIncidencia()">
-
-<p id="mensaje" style="display: none;"></p>
-<textarea name="dsc_incidencias" id="dsc_incidencias" rows="10" cols="40" placeholder="Explica que incidencia ha ocurrido:" required=""></textarea><br>
-
-<input type="submit" name="enviar" class="btnfiltrar">
-
-</form>
 
 
-<?php
+		
+	?></div>
 
-$id_recurso_incidencia = $_REQUEST['id'];
 
-$_SESSION['id_recursos_incidencia']=$id_recurso_incidencia;
-
-  ?>
 </body>
 </html>
+
+

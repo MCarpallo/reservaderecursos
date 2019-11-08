@@ -16,6 +16,7 @@ $query = "INSERT INTO incidencias (dsc_incidencia, id_recursos, id_usu, estado) 
 
 $result = mysqli_query($db, $query);
 
-
 echo $query;
+
+header("location: ../con_creacion_incidencia.php");
  ?>

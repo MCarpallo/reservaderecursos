@@ -7,20 +7,21 @@
 </head>
 <body>
 
-  
+<style type="text/css">
+body {
+    font-family: "Segoe UI", sans-serif;
+    font-size:100%;
+    background:url(https://www.elsetge.cat/myimg/f/145-1452323_nature-landscape-sky-clouds-himalayas-mountain-minimalist-nature.jpg)no-repeat fixed center;}
+       </style>
    <style>
 body {
     font-family: "Segoe UI", sans-serif;
     font-size:100%;
-    background:url(https://www.elsetge.cat/myimg/f/145-1452323_nature-landscape-sky-clouds-himalayas-mountain-minimalist-nature.jpg)no-repeat fixed center;
 /*    background-image:url(./prism.png); */
 }
-
-
 .menu {
 	margin-top: 70%;
 }
-
 .sidebar {
     position: fixed;
     height: 100%;
@@ -34,7 +35,6 @@ body {
     padding: 1rem 0;
     box-sizing:border-box;
 }
-
 .sidebar .boton-cerrar {
     position: absolute;
     top: 0.5rem;
@@ -49,20 +49,17 @@ body {
     text-align: center;
     vertical-align: top;
 }
-
 .sidebar ul, .sidebar li{
     margin:0;
     padding:0;
     list-style:none inside;
 }
-
 .sidebar ul {
     margin: 4rem auto;
     display: block;
     width: 80%;
     min-width:200px;
 }
-
 .sidebar a {
     display: block;
     font-size: 120%;
@@ -70,13 +67,10 @@ body {
     text-decoration: none;
     
 }
-
 .sidebar a:hover{
     color:#fff;
     background-color: #f90;
-
 }
-
 h1 {
     color:#f90;
     font-size:180%;
@@ -86,12 +80,10 @@ h1 {
     transition: margin-left .4s;
     padding: 1rem;
 }
-
 .abrir-cerrar {
     color: #2E88C7;
     font-size:1rem;   
 }
-
 #abrir {
     
 }
@@ -114,20 +106,15 @@ h1 {
 
 <?php
 session_start();
-
-
 	if(isset($_SESSION['username'])){
 	$usuario = $_SESSION['username'];
 }
-
 	if(isset($usuario)){
 		if ($usuario == "admin") {
 			
 			echo '<li><a href="incidencias_admin.php">Incidencias</a></li>';
-
 }
 			}
-
 ?>
 
     
@@ -149,7 +136,6 @@ function mostrar() {
     document.getElementById("abrir").style.display = "none";
     document.getElementById("cerrar").style.display = "inline";
 }
-
 function ocultar() {
     document.getElementById("sidebar").style.width = "0";
     document.getElementById("contenido").style.marginLeft = "0";
@@ -157,44 +143,33 @@ function ocultar() {
     document.getElementById("cerrar").style.display = "none";
 }
 </script>
-<?php 
-
+	<?php 
 //Iniciar la sesión para pillar la variable del usuario y comprobar si está logeado o no.
 	//session_start();
-
 	if(isset($_SESSION['username'])){
 	$usuario = $_SESSION['username'];
 }
-
 		include 'procesos/connection.php';
 	if(isset($usuario)){
-       echo"<div class='derecha'>";
 echo "<br>";
 echo "Estás logeado como ".$usuario;
 echo "<br>";
 echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
-echo "</div>";
+//Query para recoger todos los recursos de la tabla recursos
+		
+}else{
+echo "Porfavor, tienes que inciar sesión en la página del login: ";
+echo "<a href='login.php'>Iniciar Sesión </a>";
 }
-?>
 
-<h1 style="margin-bottom: -3%; margin-top: 3%;">Página de incidencias</h1>
-<!--Le pongo el required ya que no se porqué no funciona el javascript. -->
-<form action="procesos/incidencias.proc.php" method="post" onsubmit="return validacionIncidencia()">
+echo "<div class='registro3'>
+    <p>Se ha registrado la incidencia correctamente</p>
+    <a href='formulario_de_recursos.php'>Volver</a>
 
-<p id="mensaje" style="display: none;"></p>
-<textarea name="dsc_incidencias" id="dsc_incidencias" rows="10" cols="40" placeholder="Explica que incidencia ha ocurrido:" required=""></textarea><br>
-
-<input type="submit" name="enviar" class="btnfiltrar">
-
-</form>
+</div>";
+	?>
 
 
-<?php
 
-$id_recurso_incidencia = $_REQUEST['id'];
-
-$_SESSION['id_recursos_incidencia']=$id_recurso_incidencia;
-
-  ?>
 </body>
 </html>

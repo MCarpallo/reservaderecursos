@@ -56,6 +56,8 @@ $sql="UPDATE `reserva` SET `hora_fin`= '$hora_reserva' WHERE `fecha_ini`='$fecha
 	echo "$sql";
 	$result=mysqli_query($db,$sql);
 
+header("location: ../con_liberar.php");
+
 	?>
 
 
