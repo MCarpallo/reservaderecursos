@@ -1,8 +1,6 @@
 
-/*Esto es la pagina principal*/
-
-.body{
-  background:#778899;
+#main-container {
+  width: 800px;
 }
 
 
@@ -24,9 +22,8 @@ form {
 
 .cuadrado{
   padding: 50px 20px;
-  background-color:rgb(125,125,125,0.90);
   font-size: 20px;
-  margin: calc(25% + 100px);
+  margin: calc(10% + 100px);
   margin-top: 70px;
   padding-top: 28px;
   margin-bottom: 30px
@@ -39,7 +36,7 @@ h1 {
 }
 
 input {
-  width: calc(100% - 20px);
+  width: calc(120% - 20px);
   padding: 9px;
   margin: auto;
   margin-top: 12px;

@@ -52,7 +52,7 @@ $id_usu = $_SESSION['id_usuario'];
 	$_SESSION[$fecha_reservaid]=$date;
 
 
-
+	header("location: ../con_reserva.php");
 	?>
 
 

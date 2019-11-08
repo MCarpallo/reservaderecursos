@@ -21,3 +21,13 @@ function validacionLogin(){
 
 
 	
+function validacionIncidencia()){
+	var dsc = document.getElementById('dsc_incidencias').value;
+	if (dsc == ''){
+
+		document.getElementById('mensaje').style.display ='block'
+		document.getElementById('mensaje').innerHTML = "Tienes que explicar que ha ocurrido porfavor.";
+		return false;
+	}else{
+		return true;
+	}

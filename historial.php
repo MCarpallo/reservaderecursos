@@ -7,15 +7,16 @@
 </head>
 <body>
 
-  
+<style type="text/css">
+  body{background:url(https://www.elsetge.cat/myimg/f/145-1452323_nature-landscape-sky-clouds-himalayas-mountain-minimalist-nature.jpg)no-repeat fixed center;
+  }
+   </style>
    <style>
 body {
     font-family: "Segoe UI", sans-serif;
     font-size:100%;
-    background:url(https://www.elsetge.cat/myimg/f/145-1452323_nature-landscape-sky-clouds-himalayas-mountain-minimalist-nature.jpg)no-repeat fixed center;
 /*    background-image:url(./prism.png); */
 }
-
 
 .menu {
 	margin-top: 70%;
@@ -111,6 +112,9 @@ h1 {
     <br>
     <li><a href="./formulario_de_recursos.php">Formulario Reservas</a></li>
     <br>
+    <li><a href="./historial.php">Historial</a></li>
+    <br>
+
 
 <?php
 session_start();
@@ -157,44 +161,130 @@ function ocultar() {
     document.getElementById("cerrar").style.display = "none";
 }
 </script>
-<?php 
-
-//Iniciar la sesión para pillar la variable del usuario y comprobar si está logeado o no.
-	//session_start();
+	
+	<?php 
 
 	if(isset($_SESSION['username'])){
 	$usuario = $_SESSION['username'];
 }
 
-		include 'procesos/connection.php';
 	if(isset($usuario)){
-       echo"<div class='derecha'>";
+echo "<div class='derecha'>";
 echo "<br>";
 echo "Estás logeado como ".$usuario;
 echo "<br>";
 echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
+
 echo "</div>";
+
+
+		//session_start();
+		include 'procesos/connection.php';
+		
+
+echo "<form action='historial.php' method='post'>
+    <select name='usuario'>
+        <option value=''>Todos</option>
+        <option value='admin'>Admin</option>
+        <option value='Aaron'>Aaron</option>
+        <option value='fernando'>Fernando</option>
+        <option value='Mario'>Mario</option>
+    </select>
+    <input type='submit' name='subir' value='Filtrar' class='btnfiltrar'/> 
+</form>";
+
+if (!isset($_POST['usuario'])) {
+            $usu='';
+        }else{
+            $usu=$_POST['usuario'];
+        }
+
+
+if ($usu=='') {
+    # code...
+
+		$query= "SELECT * from Usuarios inner join reserva on usuarios.id_usu=reserva.id_usu
+inner join recursos on recursos.id_recursos=reserva.id_recursos ORDER BY reserva.fecha_ini DESC";
+		$result=mysqli_query($db,$query);
+
+
+
+
+		//Muestra todas las incidencias creadas
+			echo "<div class='cuadrado'";
+
+            echo '<div id="main-container">
+            <h1 style="margin-top:-10%;">Historial de reservas </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Recurso</th><th>Fecha Inicio</th><th>Fecha Final</th><th>Usuario</th>
+                </tr>
+                </thead>';
+
+
+			while ($row=mysqli_fetch_array($result)) {
+
+                $recurso=$row['nombre_recurso'];
+                 echo "<tr style='background-color:rgba(97,245,112,0.80);'>";   
+                    echo "<td><h4'>$recurso</td>"."<td>".$row['fecha_ini']."<td><h4'>".$row['fecha_fin']."</td><td>".$row['user']."</td></tr>";
+
+			
+			}
+                echo "</tr>
+        </table>
+    </div>";
+}else{
+
+        $query= "SELECT * from Usuarios inner join reserva on usuarios.id_usu=reserva.id_usu
+inner join recursos on recursos.id_recursos=reserva.id_recursos WHERE user='$usu' ORDER BY reserva.fecha_ini DESC";
+        $result=mysqli_query($db,$query);
+
+
+
+
+        //Muestra todas las incidencias creadas
+            echo "<div class='cuadrado'";
+
+            echo '<div id="main-container">
+            <h1 style="margin-top:-10%;">Historial de reservas </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Recurso</th><th>Fecha Inicio</th><th>Fecha Final</th><th>Usuario</th>
+                </tr>
+                </thead>';
+
+
+            while ($row=mysqli_fetch_array($result)) {
+
+                $recurso=$row['nombre_recurso'];
+                 echo "<tr style='background-color:rgba(97,245,112,0.80);'>";   
+                    echo "<td><h4'>$recurso</td>"."<td>".$row['fecha_ini']."<td><h4'>".$row['fecha_fin']."</td><td>".$row['user']."</td></tr>";
+
+            
+            }
+                echo "</tr>
+        </table>
+    </div>";
 }
-?>
+            
 
-<h1 style="margin-bottom: -3%; margin-top: 3%;">Página de incidencias</h1>
-<!--Le pongo el required ya que no se porqué no funciona el javascript. -->
-<form action="procesos/incidencias.proc.php" method="post" onsubmit="return validacionIncidencia()">
+			
+		}else{
 
-<p id="mensaje" style="display: none;"></p>
-<textarea name="dsc_incidencias" id="dsc_incidencias" rows="10" cols="40" placeholder="Explica que incidencia ha ocurrido:" required=""></textarea><br>
+echo "Porfavor, tienes que inciar sesión en la página del login: ";
 
-<input type="submit" name="enviar" class="btnfiltrar">
+echo "<a href='login.php'>Iniciar Sesión </a>";
 
-</form>
+}
 
 
-<?php
+		
+	?></div>
 
-$id_recurso_incidencia = $_REQUEST['id'];
 
-$_SESSION['id_recursos_incidencia']=$id_recurso_incidencia;
-
-  ?>
 </body>
 </html>
+
+

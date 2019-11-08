@@ -3,17 +3,36 @@
 <head>
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="estilos2.css">
+    <link rel="stylesheet" type="text/css" href="tabla.css">
 </head>
 <body>
+<?php
 
+session_start();
+
+
+    if(isset($_SESSION['username'])){
+    $usuario = $_SESSION['username'];
+}
+
+    if(isset($usuario)){
+        if ($usuario != "admin") {
+            
+            header("location: incidencias_admᎥn.php");
+}
+            }
+
+?>
 <style type="text/css">
-  body{background:#A8A8A8;}
+  body{background:url(https://www.elsetge.cat/myimg/f/145-1452323_nature-landscape-sky-clouds-himalayas-mountain-minimalist-nature.jpg)no-repeat fixed center;
+  }
    </style>
    <style>
 body {
     font-family: "Segoe UI", sans-serif;
     font-size:100%;
 /*    background-image:url(./prism.png); */
+
 }
 
 .menu {
@@ -110,9 +129,10 @@ h1 {
     <br>
     <li><a href="./formulario_de_recursos.php">Formulario Reservas</a></li>
     <br>
+    <li><a href="./historial.php">Historial</a></li>
+    <br>
 
 <?php
-session_start();
 
 
 	if(isset($_SESSION['username'])){
@@ -163,27 +183,40 @@ function ocultar() {
 	$usuario = $_SESSION['username'];
 }
 
+
 	if(isset($usuario)){
+echo "<div class='derecha'>";
 echo "<br>";
 echo "Estás logeado como ".$usuario;
 echo "<br>";
-
 echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
+
+echo "</div>";
+
 
 		//session_start();
 		include 'procesos/connection.php';
 		
 
-		$query= "SELECT * FROM incidencias";
+		$query= "SELECT * FROM incidencias ORDER BY estado ASC ";
 		$result=mysqli_query($db,$query);
 
 
 
 		
 		//Muestra todas las incidencias creadas
-			echo "<h2>Incidencias</h2>";
-
 			echo "<div class='cuadrado'";
+
+            echo '<div id="main-container">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Recurso</th><th>Descripción de Incidencia</th><th>Solventar</th>
+                </tr>
+                </thead>';
+
+
 			while ($row=mysqli_fetch_array($result)) {
 
 				$solucion_in = "solucionar.php?id_incidencia=".$row['id_incidencia'];
@@ -197,14 +230,19 @@ echo "<a href='procesos/cerrar.php'>Cerrar Sesión </a>";
         		$nom=$row2['nombre_recurso'];    
         		// Dependiendo de si la incidencia esta solucionada o no, en el caso de que este solucionada te la muestra en verde y no aparece el boton de solucionar,en caso contrario aparece en rojo y aparece el boton de solucionar
         		if ($row['estado']==1){
-               		echo "<h4 style='color:#47CF30;'>$nom ---- ".$row['dsc_incidencia']."";
+                 echo "<tr style='background-color:rgba(97,245,112,0.80);'>";   
+               		echo "<td><h4'>$nom</td>"."<td>".$row['dsc_incidencia']."</td><td></td></tr>";
 
 			}else if ($row['estado']==0){
 			
-				echo "<h4 style='color:#F00F0F;'>$nom ---- ".$row['dsc_incidencia']."<a href='$solucion_in'> Solucionar </a></h4>";
-			
-				;
-			}
+				    echo "<tr style='background-color:rgba(253,47,56,0.85);'><td><h4'>$nom</td>"."<td>".$row['dsc_incidencia']."</td><td><a href='$solucion_in'> Solucionar </a></h4></td>
+                    </tr>";
+			}else{
+                echo "</tr>
+        </table>
+    </div>";
+
+            }
 
 			}
 		}else{

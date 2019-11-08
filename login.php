@@ -92,7 +92,7 @@ echo '<div class="page">
         <input type="user" id="user" name="user">
         <label for="password">Password</label>
         <input type="password" id="password" name="password">
-        <input type="submit" id="submit" value="Submit">
+        <input type="submit" id="submit" value="Submit" class="btnlogin">
         <p id = "mensaje" class="mensaje"></p>
         </form>
         </div>
